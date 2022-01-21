@@ -1,0 +1,19 @@
+---
+####this script is 'net.ipv4.tcp_timestamps = 0' à /etc/sysctl.conf
+- name: playbook
+  hosts: all
+  become: yes
+  become_user: root
+  tasks:
+    - name: add conf
+      shell: echo "net.ipv4.tcp_timestamps = 0"
+    - name: add conf
+      lineinfile:
+        path: /etc/sysctl.conf
+        line: net.ipv4.tcp_timestamps = 0
+    - name: save conf
+      shell: sysctl -p /etc/sysctl.conf
+      register: output
+    - debug:
+        var: output.stdout_line
+
